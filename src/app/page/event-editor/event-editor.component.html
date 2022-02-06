@@ -1,29 +1,81 @@
-<div class="row">
-  <div *ngIf="(event$ | async) as event" class="col-6 offset-3">
+<div class="row mt-5">
+  <div *ngIf="event$ | async as event" class="col-6 offset-3">
     <form #eventForm="ngForm" (ngSubmit)="onUpdate(eventForm, event)">
       <div class="form-group">
         <label for="">Name</label>
-        <input name="name" [(ngModel)]="event.name" type="text"
-          class="form-control" pattern=".{8,}" required>
-        <div [hidden]="eventForm.controls.name?.valid" class="error-message">
+        <input
+          name="name"
+          [(ngModel)]="event.name"
+          type="text"
+          class="form-control"
+          pattern=".{8,25}"
+          required
+        />
+        <div
+          [class.error-message--show]="!eventForm.controls.name?.valid"
+          class="error-message"
+        >
           The name of the event must be...
         </div>
       </div>
       <div class="form-group">
         <label for="">Date</label>
-        <input name="date" [(ngModel)]="event.date" type="text"
-          class="form-control">
+        <input
+          name="date"
+          [(ngModel)]="event.date"
+          type="text"
+          class="form-control"
+          pattern="(\d{1,2}\/){2}\d{4}"
+          required
+        />
+        <div
+          [class.error-message--show]="!eventForm.controls.date?.valid"
+          class="error-message"
+        >
+          The format of the date is as follows: mm/dd/yyyy.
+        </div>
       </div>
       <div class="form-group">
         <label for="">Time</label>
-        <input name="time" [(ngModel)]="event.time" type="text" class="form-control">
+        <input
+          name="time"
+          [(ngModel)]="event.time"
+          type="text"
+          class="form-control"
+          pattern="\d{1,2}:\d{2} ?[apAP][mM]"
+          required
+        />
+        <div
+          [class.error-message--show]="!eventForm.controls.time?.valid"
+          class="error-message"
+        >
+          The format of the time is as follows: hh:mm am or pm.
+        </div>
       </div>
       <div class="form-group">
         <label for="">Location</label>
-        <input name="location" [(ngModel)]="event.location" type="text" class="form-control">
+        <input
+          name="location"
+          [(ngModel)]="event.location"
+          type="text"
+          class="form-control"
+          required
+          pattern="[A-Z].{4,25}"
+        />
+        <div
+          [class.error-message--show]="!eventForm.controls.location?.valid"
+          class="error-message"
+        >
+          Location must start with a capital letter and be between 5 and 25
+          characters.
+        </div>
       </div>
 
-      <button type="submit" class="btn btn-primary btn-block btn-lg">
+      <button
+        [disabled]="eventForm.invalid || isUpdating"
+        type="submit"
+        class="btn btn-primary btn-block btn-lg"
+      >
         <i class="fa fa-save"></i>
       </button>
     </form>
