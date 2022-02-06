@@ -4,8 +4,6 @@ import { Observable } from 'rxjs';
 import { Event } from 'src/app/model/event';
 import { EventService } from 'src/app/service/event.service';
 
-import { ToastrService } from 'ngx-toastr';
-
 @Component({
   selector: 'app-events-list',
   templateUrl: './events-list.component.html',
@@ -14,17 +12,13 @@ import { ToastrService } from 'ngx-toastr';
 export class EventsListComponent implements OnInit {
   eventList$: Observable<Event[]> = this.eventService.getAll();
 
-  constructor(
-    private eventService: EventService,
-    private router: Router,
-    private toastr: ToastrService
-  ) {}
+  constructor(private eventService: EventService, private router: Router) {}
 
   ngOnInit(): void {}
 
   onDelete(id: number): void {
     this.eventService.remove(id).subscribe(() => {
-      this.toastr.success('Event was successfully deleted.');
+      console.log('deleted');
     });
   }
 }

@@ -6,8 +6,6 @@ import { EventService } from 'src/app/service/event.service';
 import { Event } from 'src/app/model/event';
 import { FormGroup, NgForm } from '@angular/forms';
 
-import { ToastrService } from 'ngx-toastr';
-
 @Component({
   selector: 'app-event-editor',
   templateUrl: './event-editor.component.html',
@@ -25,8 +23,7 @@ export class EventEditorComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private eventService: EventService,
-    private router: Router,
-    private toastr: ToastrService
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
@@ -34,7 +31,6 @@ export class EventEditorComponent implements OnInit {
   onUpdate(form: NgForm, event: Event) {
     this.isUpdating = true;
     this.eventService.update(form.value).subscribe(() => {
-      this.toastr.success('successfully updated');
       this.isUpdating = false;
     });
   }
